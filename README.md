@@ -1,6 +1,18 @@
 # RBPi4-LTE
 ## Setting up of a Raspberry Pi 4 (4GB) for LTE to WiFi routing
 
+- [x] Initial Setup
+- [x] Initial programs
+- [x] SSH
+- [x] USB C OTG
+- [ ] Termclock
+- [ ] Python 3.9.4
+- [ ] Hard reboot/poweroff scripts
+- [ ] Installing QMI
+- [ ] Checking connectivity from LTE
+- [ ] Setting up auto-reconnect
+- [ ] Setting up WiFi hotspot
+
 ### Initial Setup
 1. Disconnect Sixfab bettery connector, connect USB-C power directly to the Pi4.
 2. Connect also: keyboard, ethernet.
