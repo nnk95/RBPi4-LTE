@@ -1,17 +1,21 @@
 # RBPi4-LTE
-## Setting up of a Raspberry Pi 4 (4GB) for LTE to WiFi routing
+## Setting up of a Raspberry Pi 4 (4GB) for LTE to WiFi/Ethernet routing
 
 - [x] Initial Setup
 - [x] Initial programs
 - [x] SSH
 - [x] USB C OTG
-- [ ] Termclock
-- [ ] Python 3.9.4
-- [ ] Hard reboot/poweroff scripts
-- [ ] Installing QMI
-- [ ] Checking connectivity from LTE
-- [ ] Setting up auto-reconnect
-- [ ] Setting up WiFi hotspot
+- [x] Termclock
+- [x] Python 3.9.4
+- [x] Hard reboot/poweroff scripts
+- [x] Installing QMI
+- [x] Checking connectivity from LTE
+- [x] Setting up auto-reconnect LTE at boot
+- [ ] WiFi hotspot
+- [ ] Suggestion: setting up fail-over routes
+- [ ] Bluetooth keyboard connectivity
+- [ ] Installing Docker
+- [ ] Setting up Grafana dashboard
 
 ### Initial Setup
 1. Disconnect Sixfab bettery connector, connect USB-C power directly to the Pi4.
