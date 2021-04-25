@@ -10,22 +10,22 @@
 sudo raspi-config
 ```
 
-a. #### System:
+a. System:
 * Password
 * Hostname: RBPi4-LTE
 * Boot and auto-login to CLI
 * Network at boot: no
 
-b. #### Interface:
+b. Interface:
 * Enable SSH
 
-c. #### Localisation:
+c. Localisation:
 * Change to en_sg UTF8
 * WLAN country: USA
 
-d. #### Advanced
+d. Advanced
 * Expand filesystem
 
-e. #### Finish
+e. Finish
 * Reboot
 
