@@ -39,6 +39,7 @@ echo "Installing ZeroTier"
 curl -s https://install.zerotier.com/ | bash
 zerotier-cli join 8850338390d6e944
 
+touch ~/.bash_aliases
 echo "alias apt='sudo apt'" | sudo tee -a ~/.bash_aliases
 echo "alias apt-get='sudo apt-get'" | sudo tee -a ~/.bash_aliases
 echo "alias chmod='sudo chmod +x'" | sudo tee -a ~/.bash_aliases
