@@ -21,6 +21,8 @@ do_change_locale en_SG.UTF-8
 
 END
 
+echo " "
+echo "Enter new Raspberry Pi Password: "
 passwd
 
 echo " "
