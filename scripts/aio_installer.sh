@@ -53,21 +53,21 @@ mkdir /home/pi/installers
 mkdir /home/pi/runners
 
 wget -P /home/pi/runners https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/reboot_hard.py
-chmod +x reboot_hard.py
+chmod reboot_hard.py
 wget -P /home/pi/runners https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/poweroff_hard.py
-chmod +x poweroff_hard.py
+chmod poweroff_hard.py
 
 wget -P /home/pi/installers https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/qmi_install.sh
-chmod +x qmi_install.sh
+chmod qmi_install.sh
 
 wget -P /home/pi/installers https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/install_auto_connect.sh
-chmod +x install_auto_connect.sh
+chmod install_auto_connect.sh
 
 # Getting files for: stage 2
 wget -P /home/pi/installers https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/aio_installer_2.sh
-chmod +x /home/pi/installers/aio_installer_2.sh
+chmod /home/pi/installers/aio_installer_2.sh
 wget -P /home/pi/installers https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/aio_installer_3.sh
-chmod +x /home/pi/installers/aio_installer_3.sh
+chmod /home/pi/installers/aio_installer_3.sh
 
 #echo "/home/pi/installers/aio_installer_2.sh" | sudo tee -a /home/pi/.bashrc
 
