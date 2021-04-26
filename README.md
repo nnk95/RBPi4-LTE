@@ -56,7 +56,7 @@ sudo apt upgrade -y
 (UNTESTED - PLEASE USE LITE VERSION FOR MAX COMPATIBILITY since we dont need a GUI anyway)
 ```shell
 wget https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/lite_changer.sh
-chmod +x lite_changer.sh
+sudo chmod +x lite_changer.sh
 sudo ./lite_changer.sh
 ```
 
@@ -102,15 +102,25 @@ Remove the USB C power from the Pi and connect it to SixfabPower HAT.
 #### Installing a different version of Python that is not yet available for the Pi
 ```shell
 wget https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/python_install.sh
-chmod +x python_install.sh
+sudo chmod +x python_install.sh
 sudo ./python_install.sh
 ```
 
 #### Adding new aliases
 ```shell
 wget https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/aliases_addition.sh
-chmod +x aliases_addition.sh
+sudo chmod +x aliases_addition.sh
 ./aliases_addition.sh
+```
+
+#### Adding easy reboot/poweroff commands
+```shell
+mkdir runners
+cd runners
+wget https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/reboot_hard.py
+sudo chmod +x reboot_hard.py
+wget https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/poweroff_hard.py
+sudo chmod +x poweroff_hard.py
 ```
 
 ## Sources (and thanks)
