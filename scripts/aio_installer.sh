@@ -21,8 +21,7 @@ do_change_locale en_SG.UTF-8
 
 END
 
-/usr/bin/raspi-config do_change_pass
-/usr/bin/raspi-config do_expand_rootfs
+passwd
 
 echo " "
 echo "Updating Packages"
