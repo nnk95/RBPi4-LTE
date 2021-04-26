@@ -153,11 +153,13 @@ CTRL + X
 
 <br>
 
->Installing a different version of Python that is not yet available for the Pi
+>Installing a different version of Python that is not yet available for the Pi <br> (MIGHT BREAK SIXFAB'S POWER_API)
 ```shell
 wget https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/python_install.sh
 sudo chmod +x python_install.sh
 sudo ./python_install.sh
+echo "alias python=/usr/local/opt/python-3.9.4/bin/python3.9" | sudo tee -a ~/.bash_aliases
+. ~/.bash_aliases
 ```
 
 <br>
