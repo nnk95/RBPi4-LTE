@@ -48,9 +48,11 @@ echo "alias chmod='sudo chmod +x'" | sudo tee -a /home/pi/.bash_aliases
 echo "alias ls='ls -alF --color=auto'" | sudo tee -a /home/pi/.bash_aliases
 echo "alias termclock='termclock -af -nl -tf=%H:%M:%S'" | sudo tee -a /home/pi/.bash_aliases
 echo "alias gem='sudo gem'" | sudo tee -a /home/pi/.bash_aliases
-echo "alias hardreboot='python /home/pi/runners/reboot_hard.py'" | sudo tee -a /home/pi/.bash_aliases
-echo "alias hardpoweroff='python /home/pi/runners/poweroff_hard.py'" | sudo tee -a /home/pi/.bash_aliases
+echo "alias hardreboot='python3 /home/pi/runners/reboot_hard.py'" | sudo tee -a /home/pi/.bash_aliases
+echo "alias hardpoweroff='python3 /home/pi/runners/poweroff_hard.py'" | sudo tee -a /home/pi/.bash_aliases
 . /home/pi/.bash_aliases
+
+pip3 install sixfab-power-python-api
 
 mkdir /home/pi/installers
 mkdir /home/pi/runners
