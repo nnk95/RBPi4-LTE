@@ -55,11 +55,9 @@ sudo apt upgrade -y
 ### If you've installed the full OS
 (UNTESTED - PLEASE USE LITE VERSION FOR MAX COMPATIBILITY since we dont need a GUI anyway)
 ```shell
-sudo apt update
-sudo apt purge -y x11-common bluez gnome-menus gnome-icon-theme gnome-themes-standard
-sudo apt purge -y hicolor-icon-theme gnome-themes-extra-data bluealsa cifs-utils
-sudo apt purge -y desktop-base desktop-file-utils
-sudo apt autoremove -y
+wget https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/lite_changer.sh
+chmod +x lite_changer.sh
+sudo ./lite_changer.sh
 ```
 
 ### Install initial programs
