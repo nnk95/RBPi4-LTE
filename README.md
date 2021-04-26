@@ -99,6 +99,20 @@ Remove the USB C power from the Pi and connect it to SixfabPower HAT.
 
 ### Installing secondary programs
 
+#### Installing a different version of Python that is not yet available for the Pi
+```shell
+wget https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/python_install.sh
+chmod +x python_install.sh
+sudo ./python_install.sh
+```
+
+#### Adding new aliases
+```shell
+wget https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/aliases_addition.sh
+chmod +x aliases_addition.sh
+./aliases_addition.sh
+```
+
 ## Sources (and thanks)
 
 https://power.sixfab.com/
