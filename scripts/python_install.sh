@@ -13,8 +13,8 @@ else
     echo "Python ${PYTHONVER} is installed, will proceed with Python ${varVersion} installation."
     apt-get install -y build-essential tk-dev libncurses5-dev libncursesw5-dev libreadline6-dev libdb5.3-dev libgdbm-dev libsqlite3-dev libssl-dev libbz2-dev libexpat1-dev liblzma-dev zlib1g-dev libffi-dev
 
-    mkdir installers
-    cd installers
+    mkdir /home/pi/installers
+    cd /home/pi/installers
 
     wget "https://www.python.org/ftp/python/${varVersion}/Python-${varVersion}.tar.xz"
     tar xf "Python-${varVersion}.tar.xz"
