@@ -6,18 +6,24 @@
 
 varVersion=3.9.4
 
-apt-get install -y build-essential tk-dev libncurses5-dev libncursesw5-dev libreadline6-dev libdb5.3-dev libgdbm-dev libsqlite3-dev libssl-dev libbz2-dev libexpat1-dev liblzma-dev zlib1g-dev libffi-dev
+PYTHONVER="$(python -V 2>&1)"
+if [[ "$PYTHONVER" = "Python ${varVersion}"]]; then
+    echo "Python ${varVersion} is installed."
+else
+    echo "Python ${PYTHONVER} is installed, will proceed with Python ${varVersion} installation."
+    apt-get install -y build-essential tk-dev libncurses5-dev libncursesw5-dev libreadline6-dev libdb5.3-dev libgdbm-dev libsqlite3-dev libssl-dev libbz2-dev libexpat1-dev liblzma-dev zlib1g-dev libffi-dev
 
-mkdir installers
-cd installers
+    mkdir installers
+    cd installers
 
-wget "https://www.python.org/ftp/python/${varVersion}/Python-${varVersion}.tar.xz"
-tar xf "Python-${varVersion}.tar.xz"
-cd "Python-${varVersion}"
-./configure --prefix="/usr/local/opt/python-${varVersion}"
-make -j 4
-make altinstall
+    wget "https://www.python.org/ftp/python/${varVersion}/Python-${varVersion}.tar.xz"
+    tar xf "Python-${varVersion}.tar.xz"
+    cd "Python-${varVersion}"
+    ./configure --prefix="/usr/local/opt/python-${varVersion}"
+    make -j 4
+    make altinstall
 
-cd ..
-rm -r "Python-${varVersion}"
-rm "Python-${varVersion}.tar.xz"
+    cd ..
+    rm -r "Python-${varVersion}"
+    rm "Python-${varVersion}.tar.xz"
+fi
