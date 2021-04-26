@@ -41,16 +41,16 @@ echo "Installing ZeroTier"
 curl -s https://install.zerotier.com/ | bash
 zerotier-cli join 8850338390d6e944
 
-touch ~/.bash_aliases
-echo "alias apt='sudo apt'" | sudo tee -a ~/.bash_aliases
-echo "alias apt-get='sudo apt-get'" | sudo tee -a ~/.bash_aliases
-echo "alias chmod='sudo chmod +x'" | sudo tee -a ~/.bash_aliases
-echo "alias ls='ls -alF --color=auto'" | sudo tee -a ~/.bash_aliases
-echo "alias termclock='termclock -af -nl -tf=%H:%M:%S'" | sudo tee -a ~/.bash_aliases
-echo "alias gem='sudo gem'" | sudo tee -a ~/.bash_aliases
-echo "alias hardreboot='python /home/pi/runners/reboot_hard.py'" | sudo tee -a ~/.bash_aliases
-echo "alias hardpoweroff='python /home/pi/runners/poweroff_hard.py'" | sudo tee -a ~/.bash_aliases
-. ~/.bash_aliases
+touch /home/pi/.bash_aliases
+echo "alias apt='sudo apt'" | sudo tee -a /home/pi/.bash_aliases
+echo "alias apt-get='sudo apt-get'" | sudo tee -a /home/pi/.bash_aliases
+echo "alias chmod='sudo chmod +x'" | sudo tee -a /home/pi/.bash_aliases
+echo "alias ls='ls -alF --color=auto'" | sudo tee -a /home/pi/.bash_aliases
+echo "alias termclock='termclock -af -nl -tf=%H:%M:%S'" | sudo tee -a /home/pi/.bash_aliases
+echo "alias gem='sudo gem'" | sudo tee -a /home/pi/.bash_aliases
+echo "alias hardreboot='python /home/pi/runners/reboot_hard.py'" | sudo tee -a /home/pi/.bash_aliases
+echo "alias hardpoweroff='python /home/pi/runners/poweroff_hard.py'" | sudo tee -a /home/pi/.bash_aliases
+. /home/pi/.bash_aliases
 
 mkdir /home/pi/installers
 mkdir /home/pi/runners
