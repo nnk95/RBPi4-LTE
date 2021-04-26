@@ -96,3 +96,13 @@ CTRL + O > ENTER > CTRL + X
 
 Reboot the Pi.
 Remove the USB C power from the Pi and connect it to SixfabPower HAT.
+
+### Installing secondary programs
+
+## Sources (and thanks)
+
+https://power.sixfab.com/
+https://www.zerotier.com/
+https://github.com/Souravgoswami/termclock/
+https://www.chrisjhart.com/Windows-10-ssh-copy-id/
+https://www.ramoonus.nl/2021/04/10/how-to-install-python-3-9-4-on-raspberry-pi/
