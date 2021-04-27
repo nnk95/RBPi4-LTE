@@ -14,7 +14,8 @@
 - [x] Installing QMI
 - [x] Checking connectivity from LTE
 - [x] Setting up auto-reconnect LTE at boot
-- [ ] WiFi hotspot
+- [x] WiFi hotspot
+- [ ] Atcom for SMS handling
 - [ ] \(Idea): setting up fail-over routes
 - [ ] Bluetooth keyboard connectivity
 - [ ] Installing Docker
@@ -136,7 +137,7 @@ CTRL + X
 
 >Installing a different version of Python that is not yet available for the Pi <br> (MIGHT BREAK SIXFAB'S POWER_API)
 ```shell
-wget https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/python_install.sh
+wget https://raw.githubusercontent.com/nnk95/RBPi4-LTE_RASPBIAN-LITE/main/scripts/python_install.sh
 sudo chmod +x python_install.sh
 sudo ./python_install.sh
 echo "alias python=/usr/local/opt/python-3.9.4/bin/python3.9" | sudo tee -a ~/.bash_aliases
@@ -147,7 +148,7 @@ echo "alias python=/usr/local/opt/python-3.9.4/bin/python3.9" | sudo tee -a ~/.b
 
 > Adding new aliases
 ```shell
-wget https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/aliases_addition.sh
+wget https://raw.githubusercontent.com/nnk95/RBPi4-LTE_RASPBIAN-LITE/main/scripts/aliases_addition.sh
 sudo chmod +x aliases_addition.sh
 ./aliases_addition.sh
 ```
@@ -158,22 +159,22 @@ sudo chmod +x aliases_addition.sh
 ```shell
 mkdir runners
 cd runners
-wget https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/reboot_hard.py
+wget https://raw.githubusercontent.com/nnk95/RBPi4-LTE_RASPBIAN-LITE/main/scripts/reboot_hard.py
 sudo chmod +x reboot_hard.py
-wget https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/poweroff_hard.py
+wget https://raw.githubusercontent.com/nnk95/RBPi4-LTE_RASPBIAN-LITE/main/scripts/poweroff_hard.py
 sudo chmod +x poweroff_hard.py
 ```
 
 > Or a all-in-one power commands download:
 ```shell
-wget https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/power_aio.sh
+wget https://raw.githubusercontent.com/nnk95/RBPi4-LTE_RASPBIAN-LITE/main/scripts/power_aio.sh
 sudo chmod +x power_aio.sh
 ./power_aio.sh
 ```
 <br>
 
 > Install Sixfab's QMI
-1. _Backup script at: ( https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/qmi_install.sh )_
+1. _Backup script at: ( https://raw.githubusercontent.com/nnk95/RBPi4-LTE_RASPBIAN-LITE/main/scripts/qmi_install.sh )_
 ```shell
 cd /home/pi/installers
 sudo apt-get install raspberrypi-kernel-headers
@@ -300,7 +301,7 @@ rtt min/avg/max/mdev = 192.947/199.606/221.875/11.168 ms
 
 
 > Installing the auto-reconnect on boot service
-1. _Backup script at: ( https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/install_auto_connect.sh )_
+1. _Backup script at: ( https://raw.githubusercontent.com/nnk95/RBPi4-LTE_RASPBIAN-LITE/main/scripts/install_auto_connect.sh )_
 ```shell
 wget https://raw.githubusercontent.com/sixfab/Sixfab_RPi_3G-4G-LTE_Base_Shield/master/tutorials/QMI_tutorial/install_auto_connect.sh
 sudo chmod +x install_auto_connect.sh
@@ -377,9 +378,28 @@ DONE
 
 <br>
 
+5. At times the HAT will just stop responding. Does not respond to: ``` AT ``` commands, ``` ifconfig wwan0 ``` might not show IP address, or even the whole ``` wwan0 ``` interface is missing. Here we will introduce a semi working hack to get it back online, although immediate connections might be interrupted, but this script hopefully will restart the HAT once it detects the HAT is not responding.
+```shell
+cd /home/pi/runners
+wget https://raw.githubusercontent.com/nnk95/RBPi4-LTE_RASPBIAN-LITE/main/scripts/lte_restart.py
+chmod +x lte_restart.py
+cd /usr/src
+sudo nano qmi_reconnect.sh
+```
+> Change the line that reads: ``` sudo ./quectel-CM -s #APN ``` to:
+```shell
+cd /home/pi/runners
+./lte_restart.py
+```
+
+<br>
+
 ---
 
 <br>
+
+## Setting up WiFi hotspot
+
 
 
 
