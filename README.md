@@ -86,14 +86,16 @@ sudo zerotier-cli join <network ID>
 <br>
 
 ### Generating SSH Keys
-> On the Pi:
+> On the Pi (choose one type to upload to the remote host):
 ```shell
-ssh-keygen -t rsa
+ssh-keygen -t rsa -b 4096 -t ecdsa -b 521
 ssh-copy-id -i ~/.ssh/id_rsa.pub user@<ip address>
+ssh-copy-id -i ~/.ssh/id_ecdsa.pub user@<ip address>
 ```
 > From a remote Windows machine:
 ```shell
-type $env:USERPROFILE\.ssh\id_rsa.pub | ssh pi@10.242.6.63 "cat >> .ssh/authorized_keys"
+type $env:USERPROFILE\.ssh\id_rsa.pub | ssh pi@<PI's ip address> "cat >> .ssh/authorized_keys"
+type $env:USERPROFILE\.ssh\id_ecdsa.pub | ssh pi@<PI's ip address> "cat >> .ssh/authorized_keys"
 ```
 
 <br>
@@ -112,6 +114,7 @@ sudo nano /boot/config.txt
 ```shell
 dtoverlay=dwc2,dr_mode=host
 ```
+> Alternative: ```otg_mode=1```
 3. Save and close the file with:
 ```
 CTRL + O
