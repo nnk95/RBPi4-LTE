@@ -1,4 +1,4 @@
-# RBPi4-LTE
+# RBPi4-LTE: RASPBERRY PI OS - LITE
 
 ## Setting up of a Raspberry Pi 4 (4GB) for LTE to WiFi/Ethernet routing
 ---
@@ -57,28 +57,6 @@ After the Pi reboots:
 sudo apt-get update
 sudo apt update
 sudo apt upgrade -y
-```
-
-<br>
-
----
-
-<br>
-
-## If you've installed the full OS
-
-<br>
-
-> UNTESTED!<br>
-> PLEASE USE LITE VERSION FOR MAX COMPATIBILITY<br>
-> We dont actually need a full GUI anyway
-
-<br>
-
-```shell
-wget https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/lite_changer.sh
-sudo chmod +x lite_changer.sh
-sudo ./lite_changer.sh
 ```
 
 <br>
