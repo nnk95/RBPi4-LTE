@@ -2,6 +2,11 @@
 
 ## Setting up of a Raspberry Pi 4 (4GB) for LTE to WiFi/Ethernet routing
 ---
+
+![Lines of code](https://img.shields.io/tokei/lines/github/nnk95/RBPi4-LTE_RASPBIAN-LITE?label=Lines%20Written&style=for-the-badge) ![GitHub last commit](https://img.shields.io/github/last-commit/nnk95/RBPi4-LTE_RASPBIAN-LITE?style=for-the-badge)
+
+---
+
 ### Task List:
 
 - [x] Initial Setup
@@ -20,6 +25,7 @@
 - [ ] Bluetooth keyboard connectivity
 - [ ] Installing Docker
 - [ ] Setting up Grafana dashboard
+- [ ] Clean up this page adding links etc
 
 ---
 
@@ -90,13 +96,20 @@ sudo zerotier-cli join <network ID>
 > On the Pi (choose one type to upload to the remote host):
 ```shell
 ssh-keygen -t rsa -b 4096 -t ecdsa -b 521
-ssh-copy-id -i ~/.ssh/id_rsa.pub user@<ip address>
-ssh-copy-id -i ~/.ssh/id_ecdsa.pub user@<ip address>
+ssh-copy-id -i ~/.ssh/id_rsa.pub user@<REMOTE ip address>
+ssh-copy-id -i ~/.ssh/id_ecdsa.pub user@<REMOTE ip address>
 ```
-> From a remote Windows machine:
+> On another Linux machine (choose one type):
 ```shell
-type $env:USERPROFILE\.ssh\id_rsa.pub | ssh pi@<PI's ip address> "cat >> .ssh/authorized_keys"
-type $env:USERPROFILE\.ssh\id_ecdsa.pub | ssh pi@<PI's ip address> "cat >> .ssh/authorized_keys"
+ssh-keygen -t rsa -b 4096 -t ecdsa -b 521
+ssh-copy-id -i ~/.ssh/id_rsa.pub pi@<PI ip address>
+ssh-copy-id -i ~/.ssh/id_ecdsa.pub pi@<PI ip address>
+```
+> From a remote Windows machine (choose one type):
+```shell
+ssh-keygen.exe -t rsa -b 4096 -t ecdsa -b 521
+type $env:USERPROFILE\.ssh\id_rsa.pub | ssh pi@<PI ip address> "cat >> .ssh/authorized_keys"
+type $env:USERPROFILE\.ssh\id_ecdsa.pub | ssh pi@<PI ip address> "cat >> .ssh/authorized_keys"
 ```
 
 <br>
@@ -115,7 +128,7 @@ sudo nano /boot/config.txt
 ```shell
 dtoverlay=dwc2,dr_mode=host
 ```
-> Alternative: ```otg_mode=1```
+> Experimental: ```otg_mode=1```
 3. Save and close the file with:
 ```
 CTRL + O
@@ -394,21 +407,245 @@ cd /home/pi/runners
 
 <br>
 
+6. GPIO Layout (Pi 4B)
+
+![4B GPIO](/images/GPIO-Pinout.png)
+
+| NAME | PIN | PIN | NAME |
+| --- | --- | --- | --- |
+| 3V3 POWER  | 1 | 2 | 5V POWER |
+| GPIO 2 (SDA) | 3 | 4 | 5V POWER |
+| GPIO 3 (SCL) | 5 | 6 | GROUND |
+| GPIO 4 (GPCLK0) | 7 | 8 | GPIO 14 (TXD) |
+| GROUND | 9 | 10 | GPIO 15 (RXD) |
+| GPIO 17 | 11 | 12 | GPIO 18 (PCM_CLK) |
+| GPIO 27 | 13 | 14 | GROUND |
+| GPIO 22 | 15 | 16 | GPIO 23 |
+| 3V3 POWER | 17 | 18 | GPIO 24 |
+| GPIO 10 (MOSI) | 19 | 20 | GROUND |
+| GPIO 9 (MISO) | 21 | 22 | GPIO 25 |
+| GPIO 11 (SCLK) | 23 | 24 | GPIO 8 (CE0) |
+| GROUND | 25 | 26 | GPIO 7 (CE1) |
+| GPIO 0 (ID_SD) | 27 | 28 | GPIO 1 (ID_SC) |
+| GPIO 5 | 29 | 30 | GROUND |
+| GPIO 6 | 31 | 32 | GPIO 12 (PWM0) |
+| GPIO 13 (PWM1) | 33 | 34 | GROUND |
+| GPIO 19 (PCM_FS) | 35 | 36 | GPIO 16 |
+| GPIO 26 | 37 | 38 | GPIO 20 (PCM_DIN) |
+| GROUND | 39 | 40 | GPIO 21 (PCM_DOUT) |
+
+> GPIO 26 is used to trigger the power of/off cycles of the LTE HAT.
+
+* To get a full list of what GPIO is on your system, you can install the ``` GPIOZERO ``` library and run the command ``` pinout ```.
+
+```
+sudo apt install python3-gpiozero
+pinout
+```
+
+<br>
+
 ---
 
 <br>
 
 ## Setting up WiFi hotspot
 
+<br>
+
+> Basic layout of intended function
+```
+                 +-- Router ---+       
+                 | Firewall    |          +----- RPi ----+           +--- Laptop ----+
+(Internet)--WWAN-+ DHCP server +-->-->-->--+  10.X.X.2   |           | 192.168.10.10 |
+                 |  10.X.X.X   |          |   WLAN AP   +--)))   (((--+  WLAN CLIENT |
+                 +-------------+          | 192.168.10.1 |           +---------------+
+                                          +--------------+
+```
+
+<br>
+
+1. Install: ``` hostapd dnsmasq netfilter-persistent iptables-persistent ```
+
+```shell
+sudo apt install hostapd
+sudo systemctl unmask hostapd
+sudo systemctl enable hostapd
+
+sudo apt install dnsmasq
+sudo DEBIAN_FRONTEND=noninteractive apt install -y netfilter-persistent iptables-persistent
+```
+
+<br>
+
+2. Configure static IP addtess for: ``` wlan0 ```
+
+> ``` sudo nano /etc/dhcpcd.conf ```
+
+```shell
+denyinterfaces wwan0 eth0
+interface wlan0
+static ip_address=192.168.10.1/24
+static domain_name_servers=192.168.10.1 1.1.1.1
+nohook wpa_supplicant
+```
+
+<br>
+
+3. Enable routing/forwarding
+
+> ``` sudo nano /etc/sysctl.d/routed-ap.conf ```
+
+```shell
+net.ipv4.ip_forward=1
+```
+
+<br>
+
+4. Enable IP masquerading
+
+```shell
+sudo iptables -t nat -A POSTROUTING -o wwan0 -j MASQUERADE
+sudo netfilter-persistent save
+```
+
+<br>
+
+5. Configure DHCP for: ``` wlan0 ```
+
+> Backup old ``` dnsmasq.conf ``` file
+```shell
+sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
+```
+
+> Add to the new empty ``` dnsmasq.conf ``` file:
+```shell
+sudo nano /etc/dnsmasq.conf
+
+interface=wlan0
+dhcp-range=192.168.10.10,192.168.10.250,255.255.255.0,1h
+
+domain=wlan
+address=/gw.wlan/192.168.10.1
+```
+
+<br>
+
+6. Unblock WiFi
+> ``` sudo rfkill unblock wlan ```
+
+<br>
+
+7. Create and configure: ``` hostapd.conf ```
+
+> ``` sudo nano /etc/hostapd/hostapd.conf ```
+
+```shell
+country_code=US
+interface=wlan0
+ssid=RBPi4-LTE
+hw_mode=1
+channel=44
+macaddr_acl=0
+auth_algs=1
+ignore_broadcast_ssid=0
+wpa=2
+wpa_passphrase=<enter your desired network password here>
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=TKIP
+rsn_pairwise=CCMP
+```
+
+<br>
+
+8. Reboot the Pi and the SSID should be visible after boot, connecting to the SSID, you should be routed to the internet.
+
+<br>
+
+---
+
+<br>
+
+## ATCOM / MINICOM
+
+<br>
+
+### Differences between ``` ATCOM ``` and ``` MINICOM ```
+<br>
+
+| ATCOM | MINICOM |
+| --- | --- |
+| PYTHON BASED | SERIAL PORT BASED |
+
+<br>
+
+1. Installation
+
+> ``` ATCOM ```
+
+``` pip3 install atcom ```
+
+> ``` MINICOM ```
+
+``` sudo apt install minicom ```
+
+<br>
+
+2. Usage
+
+> First identify the serial ports on your system: ``` dmesg | grep tty ```
+
+```shell
+[    0.000000] Kernel command line: coherent_pool=1M 8250.nr_uarts=0 snd_bcm2835.enable_compat_alsa=0 snd_bcm2835.enable_hdmi=1  smsc95xx.macaddr=DC:A6:32:49:FB:39 vc_mem.mem_base=0x3ec00000 vc_mem.mem_size=0x40000000  console=ttyS0,115200 console=tty1 root=PARTUUID=9c0c76f5-02 rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait
+[    0.001546] printk: console [tty1] enabled
+[    1.193107] fe201000.serial: ttyAMA0 at MMIO 0xfe201000 (irq = 29, base_baud = 0) is a PL011 rev2
+[   35.807711] usb 1-1.1: GSM modem (1-port) converter now attached to ttyUSB0
+[   35.808358] usb 1-1.1: GSM modem (1-port) converter now attached to ttyUSB1
+[   35.808916] usb 1-1.1: GSM modem (1-port) converter now attached to ttyUSB2
+[   35.810673] usb 1-1.1: GSM modem (1-port) converter now attached to ttyUSB3
+```
+
+> Usually the modem is on: ``` /dev/ttyUSB2 ```
+
+Settings to take note of:
+
+| Program | Port / Device | Baud Rate |
+| --- | --- | --- |
+| ATCOM | <b>-p</b> /dev/ttyUSB2 | 115200 |
+| MINICOM | <b>-D</b> /dev/ttyUSB2 | 115200 |
+
+<br>
+
+Command Lines to use:
+
+| Program | Command Line |
+| --- | --- |
+| ATCOM | ``` sudo atcom -p /dev/ttyUSB2 <command> ``` |
+| MINICOM | MINICOM is different that it is a separate standalone program <br> ``` sudo minicom -b 115200 -D /dev/ttyUSB2 ```
+
+<br>
+
+3. Sending commands
+
+> For full list of commands, check out: [AT_Commands_Manual](https://sixfab.com/wp-content/uploads/2020/10/Quectel_EC25EC21_AT_Commands_Manual_V1.3.pdf) <i>(PDF)</i>
 
 
 
+
+<br>
+
+---
+
+<br>
 
 ## Sources (and thanks)
 
 * https://sixfab.com/
 * https://power.sixfab.com/
+* https://docs.sixfab.com/
 * https://www.zerotier.com/
 * https://github.com/Souravgoswami/termclock/
 * https://www.chrisjhart.com/Windows-10-ssh-copy-id/
 * https://www.ramoonus.nl/2021/04/10/how-to-install-python-3-9-4-on-raspberry-pi/
+* https://www.raspberrypi.org/documentation/
+* https://shields.io/
