@@ -5,8 +5,9 @@
 
 # Stage 2
 
+echo "Starting Stage 2"
+
 sudo sed -i 's/aio_installer_2/aio_installer_3' /home/pi/.bashrc
-sleep 5s
 
 ssh-keygen -t rsa
 ssh-copy-id -i ~/.ssh/id_rsa.pub user@10.242.23.181

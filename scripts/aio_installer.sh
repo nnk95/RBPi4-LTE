@@ -50,7 +50,7 @@ echo "alias termclock='termclock -af -nl -tf=%H:%M:%S'" | sudo tee -a /home/pi/.
 echo "alias gem='sudo gem'" | sudo tee -a /home/pi/.bash_aliases
 echo "alias hardreboot='python3 /home/pi/runners/reboot_hard.py'" | sudo tee -a /home/pi/.bash_aliases
 echo "alias hardpoweroff='python3 /home/pi/runners/poweroff_hard.py'" | sudo tee -a /home/pi/.bash_aliases
-. /home/pi/.bash_aliases
+source ~/.bash_aliases
 
 pip3 install sixfab-power-python-api
 
@@ -77,4 +77,5 @@ chmod /home/pi/installers/aio_installer_3.sh
 #echo "/home/pi/installers/aio_installer_2.sh" | sudo tee -a /home/pi/.bashrc
 
 read -p "Press ENTER key to power off pi" ENTER
+rm /home/pi/aio_installer.sh
 poweroff
