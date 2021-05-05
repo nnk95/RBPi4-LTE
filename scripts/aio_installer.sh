@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # All-In-One Installer for:
-# https://github.com/nnk95/RBPi4-LTE
+# https://github.com/reikolydia/RBPi4-LTE
 
 # Stage 1
 
@@ -57,22 +57,22 @@ mkdir /home/pi/installers
 mkdir /home/pi/runners
 
 cd /home/pi/runners
-wget -P /home/pi/runners https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/reboot_hard.py
+wget -P /home/pi/runners https://raw.githubusercontent.com/reikolydia/RBPi4-LTE/main/scripts/reboot_hard.py
 chmod +x reboot_hard.py
-wget -P /home/pi/runners https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/poweroff_hard.py
+wget -P /home/pi/runners https://raw.githubusercontent.com/reikolydia/RBPi4-LTE/main/scripts/poweroff_hard.py
 chmod +x poweroff_hard.py
 
-wget -P /home/pi/installers https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/qmi_install.sh
+wget -P /home/pi/installers https://raw.githubusercontent.com/reikolydia/RBPi4-LTE/main/scripts/qmi_install.sh
 chmod +x qmi_install.sh
 
-wget -P /home/pi/installers https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/install_auto_connect.sh
+wget -P /home/pi/installers https://raw.githubusercontent.com/reikolydia/RBPi4-LTE/main/scripts/install_auto_connect.sh
 chmod +x install_auto_connect.sh
 
 # Getting files for: stage 2
 cd /home/pi/installers
-wget -P /home/pi/installers https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/aio_installer_2.sh
+wget -P /home/pi/installers https://raw.githubusercontent.com/reikolydia/RBPi4-LTE/main/scripts/aio_installer_2.sh
 chmod +x /home/pi/installers/aio_installer_2.sh
-wget -P /home/pi/installers https://raw.githubusercontent.com/nnk95/RBPi4-LTE/main/scripts/aio_installer_3.sh
+wget -P /home/pi/installers https://raw.githubusercontent.com/reikolydia/RBPi4-LTE/main/scripts/aio_installer_3.sh
 chmod +x /home/pi/installers/aio_installer_3.sh
 
 #echo "/home/pi/installers/aio_installer_2.sh" | sudo tee -a /home/pi/.bashrc
