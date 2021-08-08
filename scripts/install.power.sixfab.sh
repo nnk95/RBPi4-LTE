@@ -448,7 +448,7 @@ WantedBy=multi-user.target" | sudo tee /etc/systemd/system/power_agent.service> 
 }
 
 main() {
-  check_distro
+#  check_distro
   update_system
   check_is_user_pi_exists
   create_basefile
