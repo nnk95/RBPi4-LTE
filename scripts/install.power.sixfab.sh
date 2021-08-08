@@ -125,21 +125,21 @@ INTERVAL="10"
 AGENT_REPOSITORY="https://git.sixfab.com/sixfab-power/agent.git"
 API_REPOSITORY="https://git.sixfab.com/sixfab-power/api.git"
 
-check_distro() {
-  OS_DETAILS=$(cat /etc/os-release)
-  case "$OS_DETAILS" in
-  *Raspbian*)
-    :
-    ;;
-  *)
-    read -p "[WARNING] The operations system is not Raspbian,  we are not supporting other operation systems/distros yet. Are you sure to continue? (y/N) " -n 1 -r
-    echo
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-      exit 1
-    fi
-    ;;
-  esac
-}
+#check_distro() {
+#  OS_DETAILS=$(cat /etc/os-release)
+#  case "$OS_DETAILS" in
+#  *Raspbian*)
+#    :
+#    ;;
+#  *)
+#    read -p "[WARNING] The operations system is not Raspbian,  we are not supporting other operation systems/distros yet. Are you sure to continue? (y/N) " -n 1 -r
+#    echo
+#    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+#      exit 1
+#    fi
+#    ;;
+#  esac
+#}
 
 update_system() {
   print_info "Updating system package index..."
@@ -250,6 +250,9 @@ fleet_deploy() {
     BOARD="pi_4_2gb"
     ;;
   "c03111")
+    BOARD="pi_4_4gb"
+    ;;
+  "c03112")
     BOARD="pi_4_4gb"
     ;;
   "d03114")
