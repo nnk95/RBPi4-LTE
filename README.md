@@ -101,7 +101,7 @@ After a update, Fish shell can be installed with: (Fish cmake takes time!)
 ```shell
 wget https://raw.githubusercontent.com/reikolydia/RBPi4-LTE_RASPBIAN-LITE/main/scripts/fish_build_install.sh
 sudo chmod +x fish_build_install.sh
-sudo ./fish_build_install.sh
+./fish_build_install.sh
 ```
 
 Set up Fish shell with:
