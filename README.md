@@ -98,6 +98,34 @@ chmod +x fish_build_install.sh
 ./fish_build_install.sh
 ```
 
+Set up Fish shell with:
+
+```shell
+cd .config/fish
+nano config.fish
+
+clear
+echo " "
+neofetch
+
+cd functions
+nano fish_greeting.fish
+
+function fish_greeting
+
+echo " "
+echo "Welcome. It is:" (date +%d)" "(date +%B)" "(date +%Y)", "(date +%T)" (GMT "(date +%Z)")"
+echo " "
+
+end
+```
+
+Start Fish shell with:
+
+```shell
+fish
+```
+
 Could also install Neofetch:
 
 ```shell
@@ -170,7 +198,7 @@ type $env:USERPROFILE\.ssh\id_ecdsa.pub | ssh pi@<PI ip address> "cat >> .ssh/au
 
 ## Converting USB C to OTG mode
 
-1. Edit the file: `/boot/config/txt`
+1. Edit the file: `/boot/config.txt`
 
 ```shell
 sudo nano /boot/config.txt

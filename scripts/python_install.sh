@@ -4,7 +4,7 @@
 # adapted from: https://www.ramoonus.nl/2021/04/10/how-to-install-python-3-9-4-on-raspberry-pi/
 # you can change the build number here if you want a different version
 
-varVersion=3.9.4
+varVersion=3.9.6
 
 PYTHONVER="$(python -V 2>&1)"
 if [[ "$PYTHONVER" = "Python ${varVersion}"]]; then
