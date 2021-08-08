@@ -1,13 +1,14 @@
 # RBPi4-LTE: RASPBERRY PI OS - LITE
 
 ## Setting up of a Raspberry Pi 4 (4GB) for LTE to WiFi/Ethernet routing
+
 ---
 
 ![Lines of code](https://img.shields.io/tokei/lines/github/reikolydia/RBPi4-LTE_RASPBIAN-LITE?label=Lines%20Written&style=for-the-badge) ![GitHub last commit](https://img.shields.io/github/last-commit/reikolydia/RBPi4-LTE_RASPBIAN-LITE?style=for-the-badge)
 
 ---
 
-### Task List:
+### Task List
 
 - [x] Initial Setup
 - [x] Initial programs
@@ -32,38 +33,75 @@
 <br>
 
 ## Initial Setup
+
 1. Disconnect Sixfab bettery connector, connect USB-C power directly to the Pi4.
 2. Connect also: keyboard, ethernet.
 
 3. After first boot:
+
+Initial username:
+
+```shell
+pi
+```
+
+Initial password:
+
+```shell
+raspberry
+```
+
+Once you log in:
+
 ```shell
 sudo raspi-config
 ```
 
 a. System:
-* Password
-* Hostname: RBPi4-LTE
-* Boot and auto-login to CLI
-* Network at boot: no
+
+- Password
+- Hostname: RBPi4-LTE
+- Boot and auto-login to CLI
+- Network at boot: no
 
 b. Interface:
-* Enable SSH
+
+- Enable SSH
 
 c. Localisation:
-* Change to en_sg UTF8
-* WLAN country: USA
+
+- Change to en_sg UTF8
+- WLAN country: USA
 
 d. Advanced
-* Expand filesystem
+
+- Expand filesystem
 
 e. Finish
-* Reboot
+
+- Reboot
 
 After the Pi reboots:
+
 ```shell
 sudo apt-get update
 sudo apt update
 sudo apt upgrade -y
+```
+
+f. Optional
+After a update, Fish shell can be installed with: (Fish cmake takes time!)
+
+```shell
+wget https://raw.githubusercontent.com/reikolydia/RBPi4-LTE_RASPBIAN-LITE/main/scripts/fish_build_install.sh
+chmod +x fish_build_install.sh
+./fish_build_install.sh
+```
+
+Could also install Neofetch:
+
+```shell
+sudo apt install neofetch
 ```
 
 <br>
@@ -77,35 +115,47 @@ sudo apt upgrade -y
 <br>
 
 ### Installing SixfabPower
+
 1. Log in to: [SixfabPower](https://power.sixfab.com/)
 2. Add a device and note down the token words.
-3. ``` curl https://install.power.sixfab.com | sudo sh -s <token words>```
+
+```shell
+curl https://install.power.sixfab.com | sudo sh -s <token words>
+```
 
 <br>
 
 ### Installing ZeroTier
+
 ```shell
 curl -s https://install.zerotier.com/ | sudo bash
 sudo zerotier-cli join <network ID>
 ```
+
 > Within [ZeroTier](https://my.zerotier.com/), allow access to this new device and set the IP to desired.
 
 <br>
 
 ### Generating SSH Keys
+
 > On the Pi (choose one type to upload to the remote host):
+
 ```shell
 ssh-keygen -t rsa -b 4096 -t ecdsa -b 521
 ssh-copy-id -i ~/.ssh/id_rsa.pub user@<REMOTE ip address>
 ssh-copy-id -i ~/.ssh/id_ecdsa.pub user@<REMOTE ip address>
 ```
+
 > On another Linux machine (choose one type):
+
 ```shell
 ssh-keygen -t rsa -b 4096 -t ecdsa -b 521
 ssh-copy-id -i ~/.ssh/id_rsa.pub pi@<PI ip address>
 ssh-copy-id -i ~/.ssh/id_ecdsa.pub pi@<PI ip address>
 ```
+
 > From a remote Windows machine (choose one type):
+
 ```shell
 ssh-keygen.exe -t rsa -b 4096 -t ecdsa -b 521
 type $env:USERPROFILE\.ssh\id_rsa.pub | ssh pi@<PI ip address> "cat >> .ssh/authorized_keys"
@@ -120,21 +170,26 @@ type $env:USERPROFILE\.ssh\id_ecdsa.pub | ssh pi@<PI ip address> "cat >> .ssh/au
 
 ## Converting USB C to OTG mode
 
-1. Edit the file: ``` /boot/config/txt ``` 
+1. Edit the file: `/boot/config/txt`
+
 ```shell
 sudo nano /boot/config.txt
 ```
+
 2. Adding to the end:
+
 ```shell
 dtoverlay=dwc2,dr_mode=host
 ```
-> Experimental: ```otg_mode=1```
-3. Save and close the file with:
+
+> Experimental: `otg_mode=1` 3. Save and close the file with:
+
 ```
 CTRL + O
 ENTER
 CTRL + X
 ```
+
 4. Reboot the Pi to make sure it still boots.
 5. Power off the Pi, remove the USB C power from the Pi and connect it to SixfabPower HAT.
 
@@ -148,7 +203,8 @@ CTRL + X
 
 <br>
 
->Installing a different version of Python that is not yet available for the Pi <br> (MIGHT BREAK SIXFAB'S POWER_API)
+> Installing a different version of Python that is not yet available for the Pi <br> (MIGHT BREAK SIXFAB'S POWER_API)
+
 ```shell
 wget https://raw.githubusercontent.com/reikolydia/RBPi4-LTE_RASPBIAN-LITE/main/scripts/python_install.sh
 sudo chmod +x python_install.sh
@@ -160,6 +216,7 @@ echo "alias python=/usr/local/opt/python-3.9.4/bin/python3.9" | sudo tee -a ~/.b
 <br>
 
 > Adding new aliases
+
 ```shell
 wget https://raw.githubusercontent.com/reikolydia/RBPi4-LTE_RASPBIAN-LITE/main/scripts/aliases_addition.sh
 sudo chmod +x aliases_addition.sh
@@ -169,6 +226,7 @@ sudo chmod +x aliases_addition.sh
 <br>
 
 > Adding easy reboot/poweroff commands
+
 ```shell
 mkdir runners
 cd runners
@@ -179,15 +237,19 @@ sudo chmod +x poweroff_hard.py
 ```
 
 > Or a all-in-one power commands download:
+
 ```shell
 wget https://raw.githubusercontent.com/reikolydia/RBPi4-LTE_RASPBIAN-LITE/main/scripts/power_aio.sh
 sudo chmod +x power_aio.sh
 ./power_aio.sh
 ```
+
 <br>
 
 > Install Sixfab's QMI
+
 1. _Backup script at: ( https://raw.githubusercontent.com/reikolydia/RBPi4-LTE_RASPBIAN-LITE/main/scripts/qmi_install.sh )_
+
 ```shell
 cd /home/pi/installers
 sudo apt-get install raspberrypi-kernel-headers
@@ -195,38 +257,45 @@ wget https://raw.githubusercontent.com/sixfab/Sixfab_RPi_3G-4G-LTE_Base_Shield/m
 sudo chmod +x qmi_install.sh
 sudo ./qmi_install.sh
 ```
-2. Press ``` ENTER ``` to reboot as required and have your APN settings ready.
+
+2. Press `ENTER` to reboot as required and have your APN settings ready.
 3. **Power OFF** and connect the USB cable from the Sixfab LTE HAT to the USB C port on the Pi.
-4. **Power ON** and check for the visibility of the HAT with: ``` lsusb ```.
+4. **Power ON** and check for the visibility of the HAT with: `lsusb`.
 5. You should expect to see an entry with:
-``` Bus 00x Device 00x: ID 2c7c:0125 Quectel Wireless Solutions Co., Ltd. EC25 LTE modem ```
-6. And with: ``` dmesg | grep ttyUSB ```
+   `Bus 00x Device 00x: ID 2c7c:0125 Quectel Wireless Solutions Co., Ltd. EC25 LTE modem`
+6. And with: `dmesg | grep ttyUSB`
+
 ```
 [  154.014341] usb 3-1: GSM modem (1-port) converter now attached to ttyUSB0
 [  154.015183] usb 3-1: GSM modem (1-port) converter now attached to ttyUSB1
 [  154.015632] usb 3-1: GSM modem (1-port) converter now attached to ttyUSB2
 [  154.015994] usb 3-1: GSM modem (1-port) converter now attached to ttyUSB3
 ```
+
 7. Now we can check if the LTE modem HAT is working and for a valid LTE internet connection.
+
 ```
 cd /home/pi/files/quectel-CM
 sudo ./quectel-CM -s <APN> <UserID> <Password>
 ```
-* Command usage is: ``` ./quectel-CM [-s [apn [user password auth]]] [-p pincode] [-f logfilename] -s [apn [user password auth]] ```
-* Examples:
-> PIN code is not yet tested as i do not have a SIM card with a PIN code.
 
-| APN | UserID | Password | Pincode | Output |
-| --- | --- | --- | --- | --- |
-| 3gnet | - | - | - | `./quectel-CM -s 3gnet` |
-| 3gnet | carl | - | - | `./quectel-CM -s 3gnet carl`  |
-| 3gnet | carl | 1234 | - | `./quectel-CM -s 3gnet carl 1234`  |
-| 3gnet | carl | 1234 | 1234 | `./quectel-CM -s 3gnet carl 1234 0 -p 1234` |
+- Command usage is: `./quectel-CM [-s [apn [user password auth]]] [-p pincode] [-f logfilename] -s [apn [user password auth]]`
+- Examples:
+  > PIN code is not yet tested as i do not have a SIM card with a PIN code.
+
+| APN   | UserID | Password | Pincode | Output                                      |
+| ----- | ------ | -------- | ------- | ------------------------------------------- |
+| 3gnet | -      | -        | -       | `./quectel-CM -s 3gnet`                     |
+| 3gnet | carl   | -        | -       | `./quectel-CM -s 3gnet carl`                |
+| 3gnet | carl   | 1234     | -       | `./quectel-CM -s 3gnet carl 1234`           |
+| 3gnet | carl   | 1234     | 1234    | `./quectel-CM -s 3gnet carl 1234 0 -p 1234` |
 
 <br>
 
-> The output of ``` ./quectel-CM ``` is non-ending as long as the connection is up.
-* Expected output of ``` sudo ./quectel-CM -s <APN> ``` :
+> The output of `./quectel-CM` is non-ending as long as the connection is up.
+
+- Expected output of `sudo ./quectel-CM -s <APN>` :
+
 ```shell
 [01-29_11:47:14:867] Quectel_QConnectManager_Linux_V1.6.0.12
 [01-29_11:47:14:868] Find /sys/bus/usb/devices/1-1.1 idVendor=0x2c7c idProduct=0x125, bus=0x001, dev=0x007
@@ -273,11 +342,11 @@ Too few arguments.
 
 <br>
 
-* While ``` ./quectel-CM ``` is running, switch to another terminal window with: ``` CTRL + ALT + F2 ```
+- While `./quectel-CM` is running, switch to another terminal window with: `CTRL + ALT + F2`
 
 <br>
 
-> Check for an actual IP address with: ``` ifconfig wwan0 ```
+> Check for an actual IP address with: `ifconfig wwan0`
 
 ```
 wwan0: flags=4305<UP,POINTOPOINT,RUNNING,NOARP,MULTICAST> mtu 1360
@@ -292,7 +361,8 @@ wwan0: flags=4305<UP,POINTOPOINT,RUNNING,NOARP,MULTICAST> mtu 1360
 
 <br>
 
-> Then ping the wider internet with: ``` ping -I wwan0 -c 5 8.8.8.8 ```
+> Then ping the wider internet with: `ping -I wwan0 -c 5 8.8.8.8`
+
 ```
 PING 8.8.8.8 (8.8.8.8) from 100.65.213.248 wwan0: 56(84) bytes of data.
 64 bytes from 8.8.8.8: icmp_seq=1 ttl=110 time=222 ms
@@ -308,27 +378,29 @@ rtt min/avg/max/mdev = 192.947/199.606/221.875/11.168 ms
 
 <br>
 
-* Now stop ``` ./quectel-CM ``` by switching back to the first terminal window with ``` CTRL + ALT + F1 ``` then ``` CTRL + C ```
+- Now stop `./quectel-CM` by switching back to the first terminal window with `CTRL + ALT + F1` then `CTRL + C`
 
 <br>
 
-
 > Installing the auto-reconnect on boot service
+
 1. _Backup script at: ( https://raw.githubusercontent.com/reikolydia/RBPi4-LTE_RASPBIAN-LITE/main/scripts/install_auto_connect.sh )_
+
 ```shell
 wget https://raw.githubusercontent.com/sixfab/Sixfab_RPi_3G-4G-LTE_Base_Shield/master/tutorials/QMI_tutorial/install_auto_connect.sh
 sudo chmod +x install_auto_connect.sh
 sudo ./install_auto_connect.sh
 ```
-2. Script will ask for APN information. Enter in your APN information as follows:
-> PIN code is not yet tested as i do not have a SIM card with a PIN code.
 
-| APN | UserID | Password | Pincode | Output |
-| --- | --- | --- | --- | --- |
-| 3gnet | - | - | - | `3gnet` |
-| 3gnet | carl | - | - | `3gnet/carl`  |
-| 3gnet | carl | 1234 | - | `3gnet/carl/1234`  |
-| 3gnet | carl | 1234 | 1234 | `3gnet/carl/1234/0/1234` |
+2. Script will ask for APN information. Enter in your APN information as follows:
+   > PIN code is not yet tested as i do not have a SIM card with a PIN code.
+
+| APN   | UserID | Password | Pincode | Output                   |
+| ----- | ------ | -------- | ------- | ------------------------ |
+| 3gnet | -      | -        | -       | `3gnet`                  |
+| 3gnet | carl   | -        | -       | `3gnet/carl`             |
+| 3gnet | carl   | 1234     | -       | `3gnet/carl/1234`        |
+| 3gnet | carl   | 1234     | 1234    | `3gnet/carl/1234/0/1234` |
 
 <br>
 
@@ -340,15 +412,15 @@ Resolving raw.githubusercontent.com
 ...
 Saving to: 'qmi_reconnect.service'
 
-qmi_reconnect.service 100%[=========================================================>] 
-264  --.-KB/s    in 0s      
+qmi_reconnect.service 100%[=========================================================>]
+264  --.-KB/s    in 0s
 
 2020-12-03 12:07:39 (2.63 MB/s) - 'qmi_reconnect.service' saved [264/264]
 ...
 Saving to: 'qmi_reconnect.sh'
 
 qmi_reconnect.sh 100%[=========================================================>]
-224  --.-KB/s    in 0s      
+224  --.-KB/s    in 0s
 
 2020-12-03 12:07:40 (1.32 MB/s) - 'qmi_reconnect.sh' saved [224/224]
 
@@ -358,8 +430,9 @@ DONE
 
 <br>
 
-3. Check if the service is running correctly with: ``` sudo systemctl status qmi_reconnect.service ```
-> Name of the service is: ``` qmi_reconnect.service ```
+3. Check if the service is running correctly with: `sudo systemctl status qmi_reconnect.service`
+   > Name of the service is: `qmi_reconnect.service`
+
 ```
 ● qmi_reconnect.service - QMI Auto Connection
    Loaded: loaded (/etc/systemd/system/qmi_reconnect.service; enabled; vendor preset: enabled)
@@ -374,24 +447,25 @@ DONE
 
 <br>
 
-> Useful commands to manage the service: ``` qmi_reconnect.service ```
+> Useful commands to manage the service: `qmi_reconnect.service`
 
-| Type | Input |
-| --- | --- |
-| Status | ``` sudo systemctl status qmi_reconnect.service ``` |
-| Start | ``` sudo systemctl start qmi_reconnect.service ``` |
-| Stop | ``` sudo systemctl stop qmi_reconnect.service ``` |
-| Restart | ``` sudo systemctl restart qmi_reconnect.service ``` |
-| Uninstall | ``` sudo systemctl stop qmi_reconnect.service ``` <br> ``` sudo systemctl disable qmi_reconnect.service ``` |
+| Type      | Input                                                                                           |
+| --------- | ----------------------------------------------------------------------------------------------- |
+| Status    | `sudo systemctl status qmi_reconnect.service`                                                   |
+| Start     | `sudo systemctl start qmi_reconnect.service`                                                    |
+| Stop      | `sudo systemctl stop qmi_reconnect.service`                                                     |
+| Restart   | `sudo systemctl restart qmi_reconnect.service`                                                  |
+| Uninstall | `sudo systemctl stop qmi_reconnect.service` <br> `sudo systemctl disable qmi_reconnect.service` |
 
 <br>
 
 4. Reboot device and check for internet connectivity.
-> Note that the modem takes a little while to start up so run through ``` ifconfig wwan0 ``` until you get an IP address, then ``` ping -I wwan0 -c 5 8.8.8.8 ``` as usual.
+   > Note that the modem takes a little while to start up so run through `ifconfig wwan0` until you get an IP address, then `ping -I wwan0 -c 5 8.8.8.8` as usual.
 
 <br>
 
-5. At times the HAT will just stop responding. Does not respond to: ``` AT ``` commands, ``` ifconfig wwan0 ``` might not show IP address, or even the whole ``` wwan0 ``` interface is missing. Here we will introduce a semi working hack to get it back online, although immediate connections might be interrupted, but this script hopefully will restart the HAT once it detects the HAT is not responding.
+5. At times the HAT will just stop responding. Does not respond to: `AT` commands, `ifconfig wwan0` might not show IP address, or even the whole `wwan0` interface is missing. Here we will introduce a semi working hack to get it back online, although immediate connections might be interrupted, but this script hopefully will restart the HAT once it detects the HAT is not responding.
+
 ```shell
 cd /home/pi/runners
 wget https://raw.githubusercontent.com/reikolydia/RBPi4-LTE_RASPBIAN-LITE/main/scripts/lte_restart.py
@@ -399,7 +473,9 @@ chmod +x lte_restart.py
 cd /usr/src
 sudo nano qmi_reconnect.sh
 ```
-> Change the line that reads: ``` sudo ./quectel-CM -s #APN ``` to:
+
+> Change the line that reads: `sudo ./quectel-CM -s #APN` to:
+
 ```shell
 cd /home/pi/runners
 ./lte_restart.py
@@ -411,32 +487,32 @@ cd /home/pi/runners
 
 ![4B GPIO](/images/GPIO-Pinout.png)
 
-| NAME | PIN | PIN | NAME |
-| --- | --- | --- | --- |
-| 3V3 POWER  | 1 | 2 | 5V POWER |
-| GPIO 2 (SDA) | 3 | 4 | 5V POWER |
-| GPIO 3 (SCL) | 5 | 6 | GROUND |
-| GPIO 4 (GPCLK0) | 7 | 8 | GPIO 14 (TXD) |
-| GROUND | 9 | 10 | GPIO 15 (RXD) |
-| GPIO 17 | 11 | 12 | GPIO 18 (PCM_CLK) |
-| GPIO 27 | 13 | 14 | GROUND |
-| GPIO 22 | 15 | 16 | GPIO 23 |
-| 3V3 POWER | 17 | 18 | GPIO 24 |
-| GPIO 10 (MOSI) | 19 | 20 | GROUND |
-| GPIO 9 (MISO) | 21 | 22 | GPIO 25 |
-| GPIO 11 (SCLK) | 23 | 24 | GPIO 8 (CE0) |
-| GROUND | 25 | 26 | GPIO 7 (CE1) |
-| GPIO 0 (ID_SD) | 27 | 28 | GPIO 1 (ID_SC) |
-| GPIO 5 | 29 | 30 | GROUND |
-| GPIO 6 | 31 | 32 | GPIO 12 (PWM0) |
-| GPIO 13 (PWM1) | 33 | 34 | GROUND |
-| GPIO 19 (PCM_FS) | 35 | 36 | GPIO 16 |
-| GPIO 26 | 37 | 38 | GPIO 20 (PCM_DIN) |
-| GROUND | 39 | 40 | GPIO 21 (PCM_DOUT) |
+| NAME             | PIN | PIN | NAME               |
+| ---------------- | --- | --- | ------------------ |
+| 3V3 POWER        | 1   | 2   | 5V POWER           |
+| GPIO 2 (SDA)     | 3   | 4   | 5V POWER           |
+| GPIO 3 (SCL)     | 5   | 6   | GROUND             |
+| GPIO 4 (GPCLK0)  | 7   | 8   | GPIO 14 (TXD)      |
+| GROUND           | 9   | 10  | GPIO 15 (RXD)      |
+| GPIO 17          | 11  | 12  | GPIO 18 (PCM_CLK)  |
+| GPIO 27          | 13  | 14  | GROUND             |
+| GPIO 22          | 15  | 16  | GPIO 23            |
+| 3V3 POWER        | 17  | 18  | GPIO 24            |
+| GPIO 10 (MOSI)   | 19  | 20  | GROUND             |
+| GPIO 9 (MISO)    | 21  | 22  | GPIO 25            |
+| GPIO 11 (SCLK)   | 23  | 24  | GPIO 8 (CE0)       |
+| GROUND           | 25  | 26  | GPIO 7 (CE1)       |
+| GPIO 0 (ID_SD)   | 27  | 28  | GPIO 1 (ID_SC)     |
+| GPIO 5           | 29  | 30  | GROUND             |
+| GPIO 6           | 31  | 32  | GPIO 12 (PWM0)     |
+| GPIO 13 (PWM1)   | 33  | 34  | GROUND             |
+| GPIO 19 (PCM_FS) | 35  | 36  | GPIO 16            |
+| GPIO 26          | 37  | 38  | GPIO 20 (PCM_DIN)  |
+| GROUND           | 39  | 40  | GPIO 21 (PCM_DOUT) |
 
 > GPIO 26 is used to trigger the power of/off cycles of the LTE HAT.
 
-* To get a full list of what GPIO is on your system, you can install the ``` GPIOZERO ``` library and run the command ``` pinout ```.
+- To get a full list of what GPIO is on your system, you can install the `GPIOZERO` library and run the command `pinout`.
 
 ```
 sudo apt install python3-gpiozero
@@ -454,8 +530,9 @@ pinout
 <br>
 
 > Basic layout of intended function
+
 ```
-                 +-- Router ---+       
+                 +-- Router ---+
                  | Firewall    |          +----- RPi ----+           +--- Laptop ----+
 (Internet)--WWAN-+ DHCP server +-->-->-->--+  10.X.X.2   |           | 192.168.10.10 |
                  |  10.X.X.X   |          |   WLAN AP   +--)))   (((--+  WLAN CLIENT |
@@ -465,7 +542,7 @@ pinout
 
 <br>
 
-1. Install: ``` hostapd dnsmasq netfilter-persistent iptables-persistent ```
+1. Install: `hostapd dnsmasq netfilter-persistent iptables-persistent`
 
 ```shell
 sudo apt install hostapd
@@ -478,9 +555,9 @@ sudo DEBIAN_FRONTEND=noninteractive apt install -y netfilter-persistent iptables
 
 <br>
 
-2. Configure static IP addtess for: ``` wlan0 ```
+2. Configure static IP addtess for: `wlan0`
 
-> ``` sudo nano /etc/dhcpcd.conf ```
+> `sudo nano /etc/dhcpcd.conf`
 
 ```shell
 denyinterfaces wwan0 eth0
@@ -494,7 +571,7 @@ nohook wpa_supplicant
 
 3. Enable routing/forwarding
 
-> ``` sudo nano /etc/sysctl.d/routed-ap.conf ```
+> `sudo nano /etc/sysctl.d/routed-ap.conf`
 
 ```shell
 net.ipv4.ip_forward=1
@@ -511,14 +588,16 @@ sudo netfilter-persistent save
 
 <br>
 
-5. Configure DHCP for: ``` wlan0 ```
+5. Configure DHCP for: `wlan0`
 
-> Backup old ``` dnsmasq.conf ``` file
+> Backup old `dnsmasq.conf` file
+
 ```shell
 sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
 ```
 
-> Add to the new empty ``` dnsmasq.conf ``` file:
+> Add to the new empty `dnsmasq.conf` file:
+
 ```shell
 sudo nano /etc/dnsmasq.conf
 
@@ -532,13 +611,13 @@ address=/gw.wlan/192.168.10.1
 <br>
 
 6. Unblock WiFi
-> ``` sudo rfkill unblock wlan ```
+   > `sudo rfkill unblock wlan`
 
 <br>
 
-7. Create and configure: ``` hostapd.conf ```
+7. Create and configure: `hostapd.conf`
 
-> ``` sudo nano /etc/hostapd/hostapd.conf ```
+> `sudo nano /etc/hostapd/hostapd.conf`
 
 ```shell
 country_code=US
@@ -570,30 +649,31 @@ rsn_pairwise=CCMP
 
 <br>
 
-### Differences between ``` ATCOM ``` and ``` MINICOM ```
+### Differences between `ATCOM` and `MINICOM`
+
 <br>
 
-| ATCOM | MINICOM |
-| --- | --- |
+| ATCOM        | MINICOM           |
+| ------------ | ----------------- |
 | PYTHON BASED | SERIAL PORT BASED |
 
 <br>
 
 1. Installation
 
-> ``` ATCOM ```
+> `ATCOM`
 
-``` pip3 install atcom ```
+`pip3 install atcom`
 
-> ``` MINICOM ```
+> `MINICOM`
 
-``` sudo apt install minicom ```
+`sudo apt install minicom`
 
 <br>
 
 2. Usage
 
-> First identify the serial ports on your system: ``` dmesg | grep tty ```
+> First identify the serial ports on your system: `dmesg | grep tty`
 
 ```shell
 [    0.000000] Kernel command line: coherent_pool=1M 8250.nr_uarts=0 snd_bcm2835.enable_compat_alsa=0 snd_bcm2835.enable_hdmi=1  smsc95xx.macaddr=DC:A6:32:49:FB:39 vc_mem.mem_base=0x3ec00000 vc_mem.mem_size=0x40000000  console=ttyS0,115200 console=tty1 root=PARTUUID=9c0c76f5-02 rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait
@@ -605,32 +685,29 @@ rsn_pairwise=CCMP
 [   35.810673] usb 1-1.1: GSM modem (1-port) converter now attached to ttyUSB3
 ```
 
-> Usually the modem is on: ``` /dev/ttyUSB2 ```
+> Usually the modem is on: `/dev/ttyUSB2`
 
 Settings to take note of:
 
-| Program | Port / Device | Baud Rate |
-| --- | --- | --- |
-| ATCOM | <b>-p</b> /dev/ttyUSB2 | 115200 |
-| MINICOM | <b>-D</b> /dev/ttyUSB2 | 115200 |
+| Program | Port / Device          | Baud Rate |
+| ------- | ---------------------- | --------- |
+| ATCOM   | <b>-p</b> /dev/ttyUSB2 | 115200    |
+| MINICOM | <b>-D</b> /dev/ttyUSB2 | 115200    |
 
 <br>
 
 Command Lines to use:
 
-| Program | Command Line |
-| --- | --- |
-| ATCOM | ``` sudo atcom -p /dev/ttyUSB2 <command> ``` |
-| MINICOM | MINICOM is different that it is a separate standalone program <br> ``` sudo minicom -b 115200 -D /dev/ttyUSB2 ```
+| Program | Command Line                                                                                                |
+| ------- | ----------------------------------------------------------------------------------------------------------- |
+| ATCOM   | `sudo atcom -p /dev/ttyUSB2 <command>`                                                                      |
+| MINICOM | MINICOM is different that it is a separate standalone program <br> `sudo minicom -b 115200 -D /dev/ttyUSB2` |
 
 <br>
 
 3. Sending commands
 
 > For full list of commands, check out: [AT_Commands_Manual](https://sixfab.com/wp-content/uploads/2020/10/Quectel_EC25EC21_AT_Commands_Manual_V1.3.pdf) <i>(PDF)</i>
-
-
-
 
 <br>
 
@@ -640,12 +717,12 @@ Command Lines to use:
 
 ## Sources (and thanks)
 
-* https://sixfab.com/
-* https://power.sixfab.com/
-* https://docs.sixfab.com/
-* https://www.zerotier.com/
-* https://github.com/Souravgoswami/termclock/
-* https://www.chrisjhart.com/Windows-10-ssh-copy-id/
-* https://www.ramoonus.nl/2021/04/10/how-to-install-python-3-9-4-on-raspberry-pi/
-* https://www.raspberrypi.org/documentation/
-* https://shields.io/
+- https://sixfab.com/
+- https://power.sixfab.com/
+- https://docs.sixfab.com/
+- https://www.zerotier.com/
+- https://github.com/Souravgoswami/termclock/
+- https://www.chrisjhart.com/Windows-10-ssh-copy-id/
+- https://www.ramoonus.nl/2021/04/10/how-to-install-python-3-9-4-on-raspberry-pi/
+- https://www.raspberrypi.org/documentation/
+- https://shields.io/
