@@ -157,6 +157,34 @@ sudo apt install neofetch
 curl https://install.power.sixfab.com | sudo sh -s <token words>
 ```
 
+3. If you would like to edit the script, here is an example of an edited script:
+
+```shell
+wget https://raw.githubusercontent.com/reikolydia/RBPi4-LTE_RASPBIAN-LITE/main/scripts/install.power.sixfab.sh
+```
+
+4. If installation fails for these reasons:
+
+> pycairo
+
+```shell
+sudo apt install libcairo2-dev libgirepository1.0-dev
+```
+
+> Not raspbian (because 64 bit is Debian/Buster)
+
+```shell
+Comment out line 451 in install.power.sixfab.sh
+```
+
+> Some fleet issue:
+Add your board number to fleet_deploy() at line 221:
+
+```shell
+cat /proc/cpuinfo | grep 'Revision' | awk '{print $3}')
+```
+
+
 <br>
 
 ### Installing ZeroTier
