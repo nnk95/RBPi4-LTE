@@ -37,6 +37,12 @@
 1. Disconnect Sixfab bettery connector, connect USB-C power directly to the Pi4.
 2. Connect also: keyboard, ethernet.
 
+> If you use the 64bit version, you may need to use this instead in /boot/config.txt : (note the f for fake)
+
+```shell
+dtoverlay=vc4-fkms-v3d
+```
+
 3. After first boot:
 
 Initial username:
@@ -94,8 +100,8 @@ After a update, Fish shell can be installed with: (Fish cmake takes time!)
 
 ```shell
 wget https://raw.githubusercontent.com/reikolydia/RBPi4-LTE_RASPBIAN-LITE/main/scripts/fish_build_install.sh
-chmod +x fish_build_install.sh
-./fish_build_install.sh
+sudo chmod +x fish_build_install.sh
+sudo ./fish_build_install.sh
 ```
 
 Set up Fish shell with:
@@ -237,7 +243,7 @@ CTRL + X
 wget https://raw.githubusercontent.com/reikolydia/RBPi4-LTE_RASPBIAN-LITE/main/scripts/python_install.sh
 sudo chmod +x python_install.sh
 sudo ./python_install.sh
-echo "alias python=/usr/local/opt/python-3.9.4/bin/python3.9" | sudo tee -a ~/.bash_aliases
+echo "alias python=/usr/local/opt/python-3.9.6/bin/python3.9" | sudo tee -a ~/.bash_aliases
 . ~/.bash_aliases
 ```
 
