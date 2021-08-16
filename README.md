@@ -68,7 +68,7 @@ a. System:
 - Password
 - Hostname: RBPi4-LTE
 - Boot and auto-login to CLI
-- Network at boot: no
+- Network at boot: yes
 
 b. Interface:
 
@@ -200,6 +200,24 @@ sudo zerotier-cli join <network ID>
 ```
 
 > Within [ZeroTier](https://my.zerotier.com/), allow access to this new device and set the IP to desired.
+
+If ZeroTier does not show up after it says:
+
+```shell
+200 join OK
+```
+
+Then check if the ZeroTier network interface exists:
+
+```shell
+ip -s -c -h a
+```
+
+You should see an interface that roughly has this name:
+
+> ztbpaok2wu
+
+If not, reboot the PI.
 
 <br>
 
