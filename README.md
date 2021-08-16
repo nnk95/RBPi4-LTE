@@ -135,7 +135,7 @@ fish
 Could also install Neofetch:
 
 ```shell
-sudo apt install neofetch
+sudo apt install neofetch -y
 ```
 
 <br>
