@@ -184,6 +184,12 @@ Comment out line 451 in install.power.sixfab.sh
 cat /proc/cpuinfo | grep 'Revision' | awk '{print $3}')
 ```
 
+5. Then install edited script with:
+
+```shell
+curl https://raw.githubusercontent.com/reikolydia/RBPi4-LTE_RASPBIAN-LITE/main/scripts/install.power.sixfab.sh | sudo sh -s <token words>
+```
+
 <br>
 
 ### Installing ZeroTier
