@@ -34,7 +34,7 @@
 
 ## Initial Setup
 
-1. Disconnect Sixfab bettery connector, connect USB-C power directly to the Pi4.
+1. Connect Sixfab battery connector, connect USB-C power directly to the UPS hat.
 2. Connect also: keyboard, ethernet.
 
 > If you use the 64bit version, you may need to use this instead in /boot/config.txt : (note the f for fake)
@@ -253,7 +253,6 @@ CTRL + X
 ```
 
 4. Reboot the Pi to make sure it still boots.
-5. Power off the Pi, remove the USB C power from the Pi and connect it to SixfabPower HAT.
 
 <br>
 
