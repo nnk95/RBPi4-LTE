@@ -178,12 +178,11 @@ Comment out line 451 in install.power.sixfab.sh
 ```
 
 > Some fleet issue:
-Add your board number to fleet_deploy() at line 221:
+> Add your board number to fleet_deploy() at line 221:
 
 ```shell
 cat /proc/cpuinfo | grep 'Revision' | awk '{print $3}')
 ```
-
 
 <br>
 
