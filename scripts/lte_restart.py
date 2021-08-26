@@ -17,7 +17,7 @@ BOARD_GPIO = 37
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(BCM_GPIO, GPIO.OUT)
 
-print("LET HAT IS NOW: OFF\n")
+print("LTE HAT IS NOW: OFF\n")
 GPIO.output(BCM_GPIO, 1)
 
 print("SWITCHING LTE HAT TO ON:\n")
