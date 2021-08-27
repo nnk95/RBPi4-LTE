@@ -138,6 +138,28 @@ Could also install Neofetch:
 sudo apt install neofetch -y
 ```
 
+Other stuff:
+
+> Oh-My-Posh
+
+```shell
+sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-arm -O /usr/local/bin/oh-my-posh
+sudo chmod +x /usr/local/bin/oh-my-posh
+mkdir ~/.poshthemes
+wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/themes.zip -O ~/.poshthemes/themes.zip
+unzip ~/.poshthemes/themes.zip -d ~/.poshthemes
+chmod u+rw ~/.poshthemes/*.json
+rm ~/.poshthemes/themes.zip
+
+Within: . ~/.config/fish/config.fish
+oh-my-posh --init --shell fish --config ~/.poshthemes/slim.omp.json | source
+```
+
+```shell
+sudo apt-get install fontconfig
+```
+
+
 <br>
 
 ---
