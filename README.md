@@ -594,7 +594,9 @@ cd /home/pi/runners
 | GPIO 26          | 37  | 38  | GPIO 20 (PCM_DIN)  |
 | GROUND           | 39  | 40  | GPIO 21 (PCM_DOUT) |
 
-> GPIO 26 is used to trigger the power of/off cycles of the LTE HAT.
+<br>
+
+> GPIO 26 is used to trigger the power on/off cycles of the LTE HAT.
 
 - To get a full list of what GPIO is on your system, you can install the `GPIOZERO` library and run the command `pinout`.
 
