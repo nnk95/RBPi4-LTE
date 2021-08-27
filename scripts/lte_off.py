@@ -6,7 +6,7 @@ import os
 
 os.system('clear')
 
-print("***** SIXFAB LTE HAT GPIO RESTART SCRIPT *****")
+print("***** SIXFAB LTE HAT GPIO POWER OFF SCRIPT *****")
 
 GPIO.setwarnings(False)
 
@@ -19,15 +19,3 @@ GPIO.setup(BCM_GPIO, GPIO.OUT)
 
 print("LTE HAT IS NOW: OFF\n")
 GPIO.output(BCM_GPIO, 1)
-
-print("SWITCHING LTE HAT TO ON:\n")
-
-for i in range(rest_seconds)
-  print(str(rest_seconds-i) + " seconds")
-  time.sleep(1)
-
-print("\nLTE HAT IS NOW: ON")
-
-GPIO.output(BCM_GPIO, 0)
-
-GPIO.cleanup()
